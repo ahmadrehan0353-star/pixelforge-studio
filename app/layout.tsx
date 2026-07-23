@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CursorGlow from "@/components/CursorGlow";
+import { Analytics } from "@vercel/analytics/next";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -91,6 +92,7 @@ export default function RootLayout({
         <Navbar />
         <main className="relative">{children}</main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
