@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, CheckCircle2 } from "lucide-react";
+import { Send, CheckCircle2, AlertCircle } from "lucide-react";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
 const websiteTypes = [
   "Business Website",
@@ -45,6 +47,7 @@ export default function ContactForm() {
   const [form, setForm] = useState<FormState>(initialState);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const update = (field: keyof FormState, value: string) =>
     setForm((f) => ({ ...f, [field]: value }));
@@ -52,10 +55,21 @@ export default function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    // Wire this up to your form endpoint, email service, or CRM.
-    await new Promise((r) => setTimeout(r, 900));
-    setSubmitting(false);
-    setSubmitted(true);
+    setError(null);
+    try {
+      await addDoc(collection(db, "leads"), {
+        ...form,
+        createdAt: serverTimestamp(),
+      });
+      setSubmitted(true);
+    } catch (err) {
+      console.error("Failed to submit contact form:", err);
+      setError(
+        "Something went wrong sending your request. Please try again, or email us directly."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -184,6 +198,13 @@ export default function ContactForm() {
           className="input resize-none"
         />
       </Field>
+
+      {error && (
+        <div className="flex items-start gap-2 rounded-xl border border-forge-ember/30 bg-forge-ember/10 px-4 py-3 text-sm text-forge-emberLight">
+          <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0" />
+          {error}
+        </div>
+      )}
 
       <AnimatePresence>
         <motion.button
