@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-ink-500/40;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-ink-950 text-mist-100 font-body antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display;
+  }
+  ::selection {
+    @apply bg-forge-indigo/40 text-white;
+  }
+  :focus-visible {
+    outline: 2px solid #4CD9E8;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/[0.04] backdrop-blur-xl border border-white/[0.08];
+  }
+  .glass-panel {
+    @apply glass rounded-xl2 shadow-panel;
+  }
+  .text-gradient {
+    @apply bg-forge-gradient bg-clip-text text-transparent;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-forge-gradient px-7 py-3.5 text-sm font-semibold text-white shadow-glow transition-transform duration-300 hover:scale-[1.03] active:scale-[0.98];
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full glass px-7 py-3.5 text-sm font-semibold text-mist-100 transition-all duration-300 hover:bg-white/[0.08] hover:scale-[1.03] active:scale-[0.98];
+  }
+  .btn-ember {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-ember-gradient px-7 py-3.5 text-sm font-semibold text-ink-950 shadow-glow-ember transition-transform duration-300 hover:scale-[1.03] active:scale-[0.98];
+  }
+  .eyebrow {
+    @apply font-mono text-xs uppercase tracking-[0.25em] text-forge-cyan;
+  }
+  .section {
+    @apply relative mx-auto max-w-7xl px-6 py-24 sm:px-8 lg:px-10 lg:py-32;
+  }
+  .card {
+    @apply glass-panel p-8 transition-all duration-300 hover:border-white/[0.16] hover:bg-white/[0.06];
+  }
+  .input {
+    @apply w-full rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-3 text-sm text-white placeholder:text-mist-700 transition-colors duration-200;
+  }
+  .input:focus {
+    @apply border-forge-cyan/50 outline-none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* scrollbar */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #0B0B0F; }
+::-webkit-scrollbar-thumb { background: #2A2A34; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #6D5EF5; }
